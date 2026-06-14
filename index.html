@@ -18,14 +18,13 @@
     </div>
 
     <ul>
-        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#"><i class="fas fa-circle-info"></i> About</a></li>
-        <li><a href="#"><i class="fas fa-hand-holding-heart"></i> Support</a></li>
-        <li><a href="#"><i class="fas fa-users"></i> Volunteer</a></li>
-        <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+        <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="#support"><i class="fas fa-hand-holding-heart"></i> Support</a></li>
+        <li><a href="#volunteer"><i class="fas fa-users"></i> Volunteer</a></li>
+        <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
     </ul>
 </nav>
-    <section class="hero">
+    <section id="home"class="hero">
     <div class="hero-content">
 
         <div class="hero-text">
@@ -37,12 +36,12 @@
             </p>
 
             <div class="hero-buttons">
-                <a href="#" class="btn-primary">
+                <a href="#support" class="btn-primary">
                     <i class="fas fa-hand-holding-heart"></i>
                     Get Support
                 </a>
 
-                <a href="#" class="btn-secondary">
+                <a href="#volunteer" class="btn-secondary">
                     <i class="fas fa-users"></i>
                     Become a Volunteer
                 </a>
@@ -96,7 +95,7 @@
     </div>
 
 </section>
-<section class="form-section">
+<section id="support"class="form-section">
 
 <h2>
 <i class="fas fa-user-doctor"></i>
@@ -108,8 +107,8 @@ Patient Support Form
 <input type="text" placeholder="Full Name">
 
 <div class="row">
-<input type="number" placeholder="Age">
-<input type="tel" placeholder="Phone Number">
+    <input type="number" min="1" max="120" placeholder="Age">
+    <input id="patientPhone" type="tel" pattern="[0-9]{10}" maxlength="10" placeholder="Phone Number (10 digits)">
 </div>
 
 <textarea placeholder="Describe Your Symptoms"></textarea>
@@ -124,7 +123,7 @@ Submit Request
 </form>
 
 </section>
-<section class="form-section">
+<section id="volunteer" class="form-section">
 
 <h2>
 <i class="fas fa-handshake"></i>
@@ -137,7 +136,7 @@ Volunteer Registration
 
 <div class="row">
     <input type="email" placeholder="Email">
-    <input type="tel" placeholder="Phone Number">
+    <input id="volunteerPhone" type="tel" pattern="[0-9]{10}" maxlength="10" placeholder="Phone Number (10 digits)">
 </div>
 
 <input type="text" placeholder="Skills / Expertise">
@@ -152,7 +151,7 @@ Volunteer Registration
 </form>
 
 </section>
-<section class="ai-assistant">
+<section id="ai" class="ai-assistant">
 
 <div class="ai-info">
 
@@ -195,6 +194,7 @@ Volunteer Registration
 </div>
 
 </section>
+<section id="contact">
 <footer>
 
 <div class="footer-grid">
@@ -214,20 +214,18 @@ Volunteer Registration
 <div>
     <h4>Quick Links</h4>
 
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Support</a>
-    <a href="#">Volunteer</a>
-    <a href="#">Contact</a>
+    <a href="#home">Home</a>
+    <a href="#support">Support</a>
+    <a href="#volunteer">Volunteer</a>
+    
 </div>
 
 <div>
     <h4>Our Services</h4>
 
-    <a href="#">Patient Support</a>
-    <a href="#">Volunteer Network</a>
-    <a href="#">Health Resources</a>
-    <a href="#">AI Assistant</a>
+    <a href="#support">Patient Support</a>
+    <a href="#volunteer">Volunteer Network</a>
+    <a href="#ai">AI Assistant</a>
 </div>
 
 <div>
@@ -243,8 +241,23 @@ Volunteer Registration
 </div>
 
 </div>
-
+</section>
 </footer>
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <button id="closePopup">&times;</button>
+        <div class="popup-body">
+            <div class="popup-icon" id="popupIcon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2 id="popupHeading">Submission Successful</h2>
+            <p id="popupMessage"></p>
+            <div class="popup-close-row">
+                <button class="popup-close-btn" id="popupCloseBtn">Done</button>
+            </div>
+        </div>
+    </div>
+</div>
     <script src="script.js"></script>
 </body>
 </html>
