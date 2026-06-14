@@ -50,10 +50,10 @@
         </div>
 
         <div class="hero-image">
-            <img src="images/doctor.jpg" alt="Doctor">
+            <img src="images/image.png" alt="Doctor">
         </div>
 
-        
+
     </div>
 </section>
 
@@ -103,7 +103,7 @@
 Patient Support Form
 </h2>
 
-<form>
+<form id="patientForm">
 
 <input type="text" placeholder="Full Name">
 
@@ -131,13 +131,13 @@ Submit Request
 Volunteer Registration
 </h2>
 
-<form>
+<form id="volunteerForm">
 
 <input type="text" placeholder="Full Name">
 
 <div class="row">
-<input type="email" placeholder="Email">
-<input type="tel" placeholder="Phone Number">
+    <input type="email" placeholder="Email">
+    <input type="tel" placeholder="Phone Number">
 </div>
 
 <input type="text" placeholder="Skills / Expertise">
@@ -145,8 +145,8 @@ Volunteer Registration
 <textarea placeholder="Availability"></textarea>
 
 <button class="green">
-<i class="fas fa-user-plus"></i>
-Become a Volunteer
+    <i class="fas fa-user-plus"></i>
+    Become a Volunteer
 </button>
 
 </form>
@@ -182,14 +182,16 @@ Become a Volunteer
     </div>
 
     <div class="chat-input">
-        <input type="text"
-        placeholder="Type your question here...">
+       <input
+    id="questionInput"
+    type="text"
+    placeholder="Type your question here...">
 
-        <button>
+        <button id="sendBtn">
             <i class="fas fa-paper-plane"></i>
         </button>
     </div>
-
+<div id="responseArea"></div>
 </div>
 
 </section>
