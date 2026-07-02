@@ -8,7 +8,7 @@
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <title>Document</title>
+    <title>Healthcare Support Portal</title>
 </head>
 <body>
     <nav>
@@ -17,11 +17,15 @@
         Healthcare Portal
     </div>
 
-    <ul>
-        <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#support"><i class="fas fa-hand-holding-heart"></i> Support</a></li>
-        <li><a href="#volunteer"><i class="fas fa-users"></i> Volunteer</a></li>
-        <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+        <i class="fas fa-bars" id="hamburgerIcon"></i>
+    </button>
+
+    <ul id="navMenu">
+        <li><a href="#home" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="#support" class="nav-link"><i class="fas fa-hand-holding-heart"></i> Support</a></li>
+        <li><a href="#volunteer" class="nav-link"><i class="fas fa-users"></i> Volunteer</a></li>
+        <li><a href="#contact" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
     </ul>
 </nav>
     <section id="home"class="hero">
@@ -104,18 +108,18 @@ Patient Support Form
 
 <form id="patientForm">
 
-<input type="text" placeholder="Full Name">
+<input type="text" name="name" placeholder="Full Name" required>
 
 <div class="row">
-    <input type="number" min="1" max="120" placeholder="Age">
-    <input id="patientPhone" type="tel" pattern="[0-9]{10}" maxlength="10" placeholder="Phone Number (10 digits)">
+    <input type="number" name="age" min="1" max="120" placeholder="Age">
+    <input id="patientPhone" name="phone" type="tel" pattern="[0-9]{10}" maxlength="10" placeholder="Phone Number (10 digits)" required>
 </div>
 
-<textarea placeholder="Describe Your Symptoms"></textarea>
+<textarea name="symptoms" placeholder="Describe Your Symptoms" required></textarea>
 
-<textarea placeholder="Required Support"></textarea>
+<textarea name="support" placeholder="Required Support"></textarea>
 
-<button>
+<button type="submit">
 <i class="fas fa-paper-plane"></i>
 Submit Request
 </button>
@@ -132,18 +136,18 @@ Volunteer Registration
 
 <form id="volunteerForm">
 
-<input type="text" placeholder="Full Name">
+<input type="text" name="name" placeholder="Full Name" required>
 
 <div class="row">
-    <input type="email" placeholder="Email">
-    <input id="volunteerPhone" type="tel" pattern="[0-9]{10}" maxlength="10" placeholder="Phone Number (10 digits)">
+    <input type="email" name="email" placeholder="Email" required>
+    <input id="volunteerPhone" name="phone" type="tel" pattern="[0-9]{10}" maxlength="10" placeholder="Phone Number (10 digits)">
 </div>
 
-<input type="text" placeholder="Skills / Expertise">
+<input type="text" name="skills" placeholder="Skills / Expertise">
 
-<textarea placeholder="Availability"></textarea>
+<textarea name="availability" placeholder="Availability"></textarea>
 
-<button class="green">
+<button type="submit" class="green">
     <i class="fas fa-user-plus"></i>
     Become a Volunteer
 </button>

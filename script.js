@@ -1,3 +1,28 @@
+const API = "http://localhost:3001/api";
+
+// ==========================
+// HAMBURGER MENU
+// ==========================
+
+const hamburgerBtn = document.getElementById("hamburgerBtn");
+const hamburgerIcon = document.getElementById("hamburgerIcon");
+const navMenu = document.getElementById("navMenu");
+
+if (hamburgerBtn) {
+    hamburgerBtn.addEventListener("click", () => {
+        const isOpen = navMenu.classList.toggle("open");
+        hamburgerIcon.className = isOpen ? "fas fa-times" : "fas fa-bars";
+    });
+}
+
+// Close nav when a link is clicked (mobile UX)
+document.querySelectorAll(".nav-link").forEach(link => {
+    link.addEventListener("click", () => {
+        navMenu.classList.remove("open");
+        hamburgerIcon.className = "fas fa-bars";
+    });
+});
+
 // ==========================
 // POPUP HELPERS
 // ==========================
@@ -33,6 +58,21 @@ function hidePopup() {
     document.getElementById("popup").style.display = "none";
 }
 
+function showToast(msg, isError = false) {
+    const toast = document.createElement("div");
+    toast.textContent = msg;
+    toast.style.cssText = `
+        position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+        background:${isError ? "#ef4444" : "#22c55e"};
+        color:white; padding:12px 24px; border-radius:10px;
+        font-weight:600; font-size:15px; z-index:99999;
+        box-shadow:0 6px 20px rgba(0,0,0,0.2);
+        animation: fadeUp .3s ease;
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+}
+
 // ==========================
 // PATIENT SUPPORT FORM
 // ==========================
@@ -40,26 +80,45 @@ function hidePopup() {
 const patientForm = document.getElementById("patientForm");
 
 if (patientForm) {
-    patientForm.addEventListener("submit", function (e) {
+    patientForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const name = patientForm.querySelector('input[type="text"]').value.trim();
-        const symptoms = patientForm.querySelectorAll("textarea")[0].value.trim();
-        const support = patientForm.querySelectorAll("textarea")[1].value.trim();
+        const name = patientForm.querySelector('[name="name"]').value.trim();
+        const age = patientForm.querySelector('[name="age"]').value.trim();
+        const phone = patientForm.querySelector('[name="phone"]').value.trim();
+        const symptoms = patientForm.querySelector('[name="symptoms"]').value.trim();
+        const support = patientForm.querySelector('[name="support"]').value.trim();
 
-        if (!name || !symptoms) {
-            alert("Please fill in your name and symptoms before submitting.");
-            return;
+        const submitBtn = patientForm.querySelector("button[type='submit']");
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+        try {
+            const res = await fetch(`${API}/patient`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, age, phone, symptoms, support })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                const message =
+                    `Hello ${name}, your support request has been received!\n\n` +
+                    `Symptoms noted: ${symptoms}\n\n` +
+                    (support ? `Required support: ${support}\n\n` : "") +
+                    `A volunteer will review your case shortly. Stay safe!`;
+                showPopup(message, false);
+                patientForm.reset();
+            } else {
+                showToast(data.error || "Submission failed. Please try again.", true);
+            }
+        } catch (err) {
+            showToast("Could not reach the server. Please check your connection.", true);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Request';
         }
-
-        const message =
-            `Hello ${name}, your support request has been received!\n\n` +
-            `Symptoms noted: ${symptoms}\n\n` +
-            (support ? `Required support: ${support}\n\n` : "") +
-            `A volunteer will review your case shortly. Stay safe!`;
-
-        showPopup(message, false);
-        patientForm.reset();
     });
 }
 
@@ -70,26 +129,45 @@ if (patientForm) {
 const volunteerForm = document.getElementById("volunteerForm");
 
 if (volunteerForm) {
-    volunteerForm.addEventListener("submit", function (e) {
+    volunteerForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        const name = volunteerForm.querySelector('input[type="text"]').value.trim();
-        const email = volunteerForm.querySelector('input[type="email"]').value.trim();
-        const skills = volunteerForm.querySelectorAll('input[type="text"]')[1]?.value.trim() || "";
+        const name = volunteerForm.querySelector('[name="name"]').value.trim();
+        const email = volunteerForm.querySelector('[name="email"]').value.trim();
+        const phone = volunteerForm.querySelector('[name="phone"]').value.trim();
+        const skills = volunteerForm.querySelector('[name="skills"]').value.trim();
+        const availability = volunteerForm.querySelector('[name="availability"]').value.trim();
 
-        if (!name || !email) {
-            alert("Please fill in your name and email before registering.");
-            return;
+        const submitBtn = volunteerForm.querySelector("button[type='submit']");
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+
+        try {
+            const res = await fetch(`${API}/volunteer`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, phone, skills, availability })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                const message =
+                    `Welcome aboard, ${name}! 🎉\n\n` +
+                    `Your volunteer registration has been successfully submitted.\n\n` +
+                    (skills ? `Skills: ${skills}\n\n` : "") +
+                    `We'll get in touch at ${email} with your next steps. Thank you for making a difference!`;
+                showPopup(message, true);
+                volunteerForm.reset();
+            } else {
+                showToast(data.error || "Registration failed. Please try again.", true);
+            }
+        } catch (err) {
+            showToast("Could not reach the server. Please check your connection.", true);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Become a Volunteer';
         }
-
-        const message =
-            `Welcome aboard, ${name}! 🎉\n\n` +
-            `Your volunteer registration has been successfully submitted.\n\n` +
-            (skills ? `Skills: ${skills}\n\n` : "") +
-            `We'll get in touch at ${email} with your next steps. Thank you for making a difference!`;
-
-        showPopup(message, true);
-        volunteerForm.reset();
     });
 }
 
@@ -103,11 +181,8 @@ function enforceDigitsOnly(inputId) {
     input.addEventListener("input", () => {
         input.value = input.value.replace(/\D/g, "").slice(0, 10);
     });
-    // Block non-numeric key presses for a cleaner UX
     input.addEventListener("keypress", (e) => {
-        if (!/[0-9]/.test(e.key)) {
-            e.preventDefault();
-        }
+        if (!/[0-9]/.test(e.key)) e.preventDefault();
     });
 }
 
@@ -121,18 +196,12 @@ enforceDigitsOnly("volunteerPhone");
 const closePopupBtn = document.getElementById("closePopup");
 const popupCloseBtnBottom = document.getElementById("popupCloseBtn");
 
-if (closePopupBtn) {
-    closePopupBtn.addEventListener("click", hidePopup);
-}
-if (popupCloseBtnBottom) {
-    popupCloseBtnBottom.addEventListener("click", hidePopup);
-}
+if (closePopupBtn) closePopupBtn.addEventListener("click", hidePopup);
+if (popupCloseBtnBottom) popupCloseBtnBottom.addEventListener("click", hidePopup);
 
 window.addEventListener("click", (e) => {
     const popup = document.getElementById("popup");
-    if (e.target === popup) {
-        hidePopup();
-    }
+    if (e.target === popup) hidePopup();
 });
 
 // ==========================
@@ -146,7 +215,6 @@ const responseArea = document.getElementById("responseArea");
 if (sendBtn) {
     sendBtn.addEventListener("click", function () {
         const question = questionInput.value.toLowerCase().trim();
-
         if (!question) return;
 
         let response = "Sorry, I don't have an answer for that. Please consult a healthcare professional for personalised advice.";
@@ -169,7 +237,6 @@ if (sendBtn) {
         questionInput.value = "";
     });
 
-    // Allow pressing Enter to send
     questionInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter") sendBtn.click();
     });

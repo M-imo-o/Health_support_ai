@@ -1,0 +1,42 @@
+{
+  "patients": [
+    {
+      "id": 1,
+      "name": "Test Patient",
+      "age": 30,
+      "phone": "9876543210",
+      "symptoms": "Fever and headache",
+      "support": "Need medication advice",
+      "created_at": "2026-06-14T12:46:45.469Z"
+    },
+    {
+      "id": 2,
+      "name": "Adhithya K",
+      "age": 10,
+      "phone": "9377799020",
+      "symptoms": "cough, red pimples like in the body",
+      "support": "guidance n treatment",
+      "created_at": "2026-06-14T15:27:29.630Z"
+    }
+  ],
+  "volunteers": [
+    {
+      "id": 1,
+      "name": "Test Volunteer",
+      "email": "vol@test.com",
+      "phone": "9123456789",
+      "skills": "Nursing",
+      "availability": "Weekends",
+      "created_at": "2026-06-14T12:46:45.487Z"
+    },
+    {
+      "id": 2,
+      "name": "adjdjncj",
+      "email": "adhikallooe@gmail.com",
+      "phone": "7988999999",
+      "skills": "djhhfdjf",
+      "availability": null,
+      "created_at": "2026-06-14T15:27:37.625Z"
+    }
+  ]
+}
